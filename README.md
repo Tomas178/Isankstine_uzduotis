@@ -1,4 +1,4 @@
-# Išansktinė Užduotis
+# Išankstinė Užduotis
 
 ## Naudojimosi instrukcija
     - Būnant folder'yje Isankstine_uzduotis reikia įvesti šią komandą:  g++ Headers/Funkcijos.h Sources/Main.cpp Sources/Funkcijos.cpp -o uzduotis
