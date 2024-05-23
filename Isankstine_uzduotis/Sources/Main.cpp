@@ -22,6 +22,7 @@ int main() {
     std::cout << "\nPalaukite kol failas bus nuskaitytas..." << std::endl;
     Skaitymas(Norimas_Failas, sarasas, urls);
     DF.close();
-    std::cout << "\nFailas nuskaitytas. Rezultatus rasite faile " << "rezultatai.txt" << std::endl;
+    std::cout << "\nRezultatus rasite rezultatai.txt" << std::endl;
     Isvedimas(sarasas, urls);
+    system("pause");
 }
