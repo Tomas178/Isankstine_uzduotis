@@ -18,8 +18,6 @@ int main() {
             break;
         }
     }
-
-    std::cout << "\nPalaukite kol failas bus nuskaitytas..." << std::endl;
     Skaitymas(Norimas_Failas, sarasas, urls);
     DF.close();
     std::cout << "\nRezultatus rasite rezultatai.txt" << std::endl;
