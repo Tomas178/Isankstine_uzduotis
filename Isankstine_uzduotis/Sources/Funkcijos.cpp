@@ -1,114 +1,110 @@
 #include "../Headers/Funkcijos.h"
 
-std::string GalimiFailai() {
-    std::cout << "\nGalimi failai:" << std::endl;
-    const std::filesystem::path dirpath("./");
-    for (const auto& i : std::filesystem::directory_iterator{dirpath}) {
-        if (i.is_regular_file() && i.path().extension() == ".txt") {
-            std::cout << i.path().filename() << std::endl;
-        }
-    }
-    std::string Norimas_Failas;
-    std::cout << "\nIveskite failo, kuri norite nuskaityti, pavadinima: "; std::cin >> Norimas_Failas; 
-
-    if (Norimas_Failas.size() < 4 || Norimas_Failas.substr(Norimas_Failas.size() - 4) != ".txt")
-        Norimas_Failas += ".txt";
-
-    return Norimas_Failas.empty() ? "text.txt" : Norimas_Failas;
-}
-
-
-bool isURL (const std::string& zodis) {
-    std::regex urlRegex("(((http|https)://)?www\\.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)");
-    return std::regex_match(zodis, urlRegex);
-}
-
-std::string Zodziu_Tvarkymas(const std::string& zodis) {
-    std::regex notFixedRegex("[^\\w]+");
-    std::string Sutvarkytas_Zodis = std::regex_replace(zodis, notFixedRegex, "");
-    transform(Sutvarkytas_Zodis.begin(), Sutvarkytas_Zodis.end(), Sutvarkytas_Zodis.begin(), ::tolower);
-    return Sutvarkytas_Zodis;
-}
-
-void Prideti_Zodi(const std::string& zodis, std::map<std::string, std::vector<int>>& sarasas, int eilNr) {
-    if (zodis.empty()) return;
-
-    auto it = sarasas.find(zodis);
-
-    if (it == sarasas.end()) {
-        std::vector<int> eiluciuNr;
-        eiluciuNr.push_back(eilNr);
-        sarasas[zodis] = eiluciuNr;
-    }
-    else {
-        std::vector<int>& eiluciuNr = it->second;
-        if (eilNr != eiluciuNr.back()) {
-            eiluciuNr.push_back(eilNr);
-        }
-    }
-}
-
-void Skaitymas(const std::string& Norimas_Failas,  std::map<std::string, std::vector<int>>& sarasas, std::vector<std::string>& urls) {
-    std::ifstream DF(Norimas_Failas);
-    std::stringstream tekstas;
-    tekstas << DF.rdbuf();
-    DF.close();
-    std::string eilute;
-    int eilNr = 0;
-
-    while(std::getline(tekstas, eilute)) {
-        eilNr++;
-        std::string zodis;
-        std::istringstream iss(eilute);
-        while(iss >> zodis) {
-            bool ArSkaicius = false; 
-            for (char c : zodis) {
-                if (isdigit(c)) {
-                    ArSkaicius = true;
-                    break;
-                }
-            }
-            if(isURL(zodis)) {
-                urls.push_back(zodis);
-            }
-            else if (!ArSkaicius) {
-                zodis = Zodziu_Tvarkymas(zodis);
-                Prideti_Zodi(zodis, sarasas, eilNr);
-            }
-        }
-    }
-}
-
-void Isvedimas ( std::map<std::string, std::vector<int>>& sarasas,std::vector<std::string> urls) {
-    std::ofstream RF("rezultatai.txt");
-    std::stringstream FF;
-    if (!RF.good()) {
-        std::cout << "Failo nepavyko sukurti." << std::endl;
+void Skaitymas(){
+    std::ifstream DF("Tekstas.txt");
+    if(!DF.good()){
+        std::cout << "Failas nerastas";
         return;
     }
+    string line;
+    regex URL_CHECK = regex("(((http|https)://)?www\\.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)");
+    int eilutesNR = 0;
+    while(!DF.eof()){
+        crossCheck.clear();
+        eilutesNR++;
+        getline(DF, line);
+        
+        std::stringstream stream(line);
+        string zodis;
 
-    FF << "URL count: " << urls.size() << "." << std::endl;
-    for (const auto& url : urls)
-        FF << url << std::endl;
+        int zodzioNumeris = 0;
+        while(stream >> zodis){
+            zodzioNumeris++;
+            std::transform(zodis.begin(), zodis.end(), zodis.begin(), [](unsigned char c) { return std::tolower(c); });
 
-    FF << std::endl;
-
-   if (!sarasas.empty()) {
-        FF << std::left << std::setw(20) << "ZODIS" << std::setw(8) << "KIEKIS" << "EILUCIU NR." << std::endl;
-
-        for (const auto& i : sarasas) {
-            if (i.second.size() > 1){
-                FF << std::left << std::setw(20) << i.first << std::setw(8) << i.second.size();
-
-                for (int j : i.second) {
-                    FF << std::setw(4) << j;
+            if(std::regex_match(zodis, URL_CHECK)){
+                if(zodis[zodis.length() - 1] == ',' || zodis[zodis.length() - 1] == '.'){
+                    zodis.resize(zodis.length() - 1);
+                }   
+                url.push_back(zodis);
+                zodis.clear();
+            }
+            if(isdigit(zodis[0]) || ispunct(zodis[0])){
+                if (zodis.find("th") == string::npos){
+                    for (int i = 0; i < zodis.length(); i++){
+                        if (isdigit(zodis[i]) || ispunct(zodis[i])){
+                            zodis = zodis.substr(i + 1);
+                            i = -1;
+                        }
+                    }
                 }
+            }
+            if(zodis[zodis.length() - 2] == '\''){
+                zodis.resize(zodis.length() - 2);
+            }
 
-            FF << std::endl;
+            if(isdigit(zodis[zodis.length() - 1]) || ispunct(zodis[zodis.length() - 1])){         
+                if(zodis[zodis.length() - 1] != 'h' && zodis[zodis.length() - 2] != 't'){
+                    for(int i = zodis.length() - 1; i > 0; i--){
+                        if(isdigit(zodis[i]) || ispunct(zodis[i])){
+                            zodis.resize(i);
+                            i = zodis.length();
+                        }
+                    }
+                }
+            }
+            if(!zodis.empty()){
+                crossCheck.insert({ zodis, {0} });
+                crossCheck[zodis].push_back(zodzioNumeris);
+
+                auto it = Zodziai.find(zodis);
+                if (it != Zodziai.end()) {
+                    it->second++;
+                } else {
+                    Zodziai[zodis] = 1;
+                }
             }
         }
+        IsvestiCrossReferenceLentele(crossCheck, eilutesNR);
     }
-    RF << FF.str();
-    FF.clear();
+}
+
+void IsvestiCrossReferenceLentele(const std::map<string, vector<int>> &crossCheck, const int eilutesNR){
+    std::ofstream RF("CrossReference.txt", std::ios::app);
+    RF << eilutesNR << " - osios eilutes zodziu numeriai: " << endl;
+    for (auto elem : crossCheck){
+        if (elem.second.size() > 1){
+            RF << elem.first << " ";
+        }
+            
+        for(int i = 1; i < elem.second.size(); i++){
+            RF << elem.second.at(i) << " ";
+        }
+
+        RF << endl;
+    }
+    RF << endl;
     RF.close();
+}
+
+void ZodziuIsvedimas(const std::map<string, int> &Zodziai){
+    std::ofstream RF("Zodziai.txt");
+    RF << "Visi zodziai pasikartojantys daugiau nei 1 karta: " << endl;
+    for (auto elem : Zodziai){
+        if (elem.second > 1){
+            RF << elem.first << " " << elem.second << endl;
+        }
+    }
+    RF.close();
+    cout << "Zodziai isvesti i Zodziai.txt faila:)" << endl;
+}
+
+void URLIsvedimas(const vector<string> &URL){
+    std::ofstream RF("URL.txt");
+    RF << "URL: " << URL.size() << endl;
+    for (auto elem : URL){
+        RF << elem << endl;
+    }
+    RF.close();
+    cout << "URL isvesti i URL.txt faila:)" << endl;
 }

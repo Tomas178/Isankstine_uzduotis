@@ -1,3 +1,16 @@
+https://www.example.com
+http://example.org
+https://subdomain.example.com
+https://www.example.co.uk
+https://example.com?query=parameter
+https://example.com#fragment
+ftp://example.com/resource
+http://example.net/path/to/resource
+https://www.example.edu?name=test&value=123
+http://sub.example.com:8080
+https://example.io/path?name=test#section
+www.example.co.uk
+
 Pamėnkalnis
 Pagrindinis straipsnis – Pamėnkalnis.
 Pamėnkalnis yra Vilniaus centre (jo viršūnėje gerai matomi stovi Profsąjungų rūmai, o giliau – Santuokų rūmai) tarp Pamėnkalnio, V. Kudirkos, K. Kalinausko ir Tauro gatvių.

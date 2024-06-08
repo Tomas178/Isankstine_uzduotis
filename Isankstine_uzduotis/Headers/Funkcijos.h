@@ -1,18 +1,29 @@
-#include <vector>
-#include <map>
-#include <string>
-#include <regex>
-#include <iostream>
-#include <iomanip>
-#include <numeric>
+#ifndef FUNKCIJOS_H
+#define FUNKCIJOS_H
+
 #include <fstream>
 #include <sstream>
-#include <filesystem>
+#include <iostream>
+#include <algorithm>
+#include <cctype>
+#include <map>
+#include <vector>
+#include <string>
+#include <regex>
 
-bool isURL (const std::string& zodis);
-std::string GalimiFailai();
-std::string Zodziu_Tvarkymas(const std::string& zodis);
-void Prideti_Zodi(const std::string& zodis, std::map<std::string, std::vector<int>>& sarasas, int eilutesNumeris);
-void Skaitymas(const std::string& fileChoice,  std::map<std::string, std::vector<int>>& sarasas, std::vector<std::string>& urls);
-void Isvedimas ( std::map<std::string, std::vector<int>>& sarasas,std::vector<std::string> urls);
+using std::cout;
+using std::regex;
+using std::string;
+using std::vector;
+using std::endl;
 
+extern std::map<string, int> Zodziai;
+extern std::map<string, vector<int>> crossCheck;
+extern vector<string> url;
+
+void Skaitymas();
+void IsvestiCrossReferenceLentele(const std::map<string, vector<int>> &crossCheck, const int eilutesNR);
+void ZodziuIsvedimas(const std::map<string, int> &Zodziai);
+void URLIsvedimas(const vector<string> &URL);
+
+#endif
