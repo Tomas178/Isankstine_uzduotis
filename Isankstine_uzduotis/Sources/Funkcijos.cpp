@@ -25,7 +25,7 @@ void Skaitymas(){
                 if(zodis[zodis.length() - 1] == ',' || zodis[zodis.length() - 1] == '.'){
                     zodis.resize(zodis.length() - 1);
                 }   
-                url.push_back(zodis);
+                url.insert({zodis, {zodzioNumeris, {eilutesNR}}});
                 zodis.clear();
             }
             if(isdigit(zodis[0]) || ispunct(zodis[0])){
@@ -82,11 +82,11 @@ void ZodziuIsvedimas(const std::map<std::string, std::pair<int, std::set<int>>> 
     std::cout << "Zodziai isvesti i Zodziai.txt faila:)" << std::endl;
 }
 
-void URLIsvedimas(const std::vector<std::string> &URL){
+void URLIsvedimas(const std::map<std::string, std::pair<int, std::set<int>>> &URL){
     std::ofstream RF("URL.txt");
     RF << "URL: " << URL.size() << std::endl;
     for (auto elem : URL){
-        RF << elem << std::endl;
+        RF << elem.first << std::endl;
     }
     RF.close();
     std::cout << "URL isvesti i URL.txt faila:)" << std::endl;

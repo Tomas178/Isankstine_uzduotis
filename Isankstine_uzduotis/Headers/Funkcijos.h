@@ -13,10 +13,10 @@
 #include <cctype>
 
 extern std::map<std::string, std::pair<int, std::set<int>>> Zodziai;
-extern std::vector<std::string> url;
+extern std::map<std::string, std::pair<int, std::set<int>>> url;
 
 void Skaitymas();
 void ZodziuIsvedimas(const std::map<std::string, std::pair<int, std::set<int>>> Zodziai);
-void URLIsvedimas(const std::vector<std::string> &URL);
+void URLIsvedimas(const std::map<std::string, std::pair<int, std::set<int>>> &URL);
 
 #endif
