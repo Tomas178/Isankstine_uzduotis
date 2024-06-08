@@ -1,29 +1,22 @@
 #ifndef FUNKCIJOS_H
 #define FUNKCIJOS_H
 
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <algorithm>
-#include <cctype>
 #include <map>
 #include <vector>
 #include <string>
 #include <regex>
+#include <set>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+#include <iostream>
+#include <cctype>
 
-using std::cout;
-using std::regex;
-using std::string;
-using std::vector;
-using std::endl;
-
-extern std::map<string, int> Zodziai;
-extern std::map<string, vector<int>> crossCheck;
-extern vector<string> url;
+extern std::map<std::string, std::pair<int, std::set<int>>> Zodziai;
+extern std::vector<std::string> url;
 
 void Skaitymas();
-void IsvestiCrossReferenceLentele(const std::map<string, vector<int>> &crossCheck, const int eilutesNR);
-void ZodziuIsvedimas(const std::map<string, int> &Zodziai);
-void URLIsvedimas(const vector<string> &URL);
+void ZodziuIsvedimas(const std::map<std::string, std::pair<int, std::set<int>>> Zodziai);
+void URLIsvedimas(const std::vector<std::string> &URL);
 
 #endif
