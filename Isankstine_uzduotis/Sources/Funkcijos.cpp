@@ -63,16 +63,14 @@ void Skaitymas(){
 
 void ZodziuIsvedimas(const std::map<std::string, std::pair<int, std::set<int>>> Zodziai){
     std::ofstream RF("Zodziai.txt");
-    RF << "Visi žodziai pasikartojantys daugiau nei 1 kartą: " << std::endl;
+    RF << std::left << std::setw(30) << "Zodis" << std::setw(20) << "Kiekis" << "Eil. Nr." << std::endl;
     for (const auto &elem : Zodziai){
         if (elem.second.first > 1){
-            RF << "Žodis '"<< elem.first << "' Pasikartoja " << elem.second.first << " kartus eilutėse [";
+            RF << std::left << std::setw(30) << elem.first << std::setw(20) << elem.second.first;
             for(const auto &eilute : elem.second.second){
                 RF << eilute;
                 if(eilute != *elem.second.second.rbegin()){
                     RF << ", ";
-                } else {
-                    RF << "].";
                 }
             }
             RF << std::endl;
