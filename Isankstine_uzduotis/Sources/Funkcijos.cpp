@@ -59,6 +59,7 @@ void Skaitymas(){
             }
         }
     }
+    DF.close();
 }
 
 void ZodziuIsvedimas(const std::map<std::string, std::pair<int, std::set<int>>> Zodziai){
